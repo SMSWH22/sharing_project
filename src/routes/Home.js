@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import { dbService } from "fbase";
 import { Link } from "react-router-dom";
+import ImgUpload from "components/ImgUpload";
 
-const Home = () => {
+const Home = ({userObj}) => {
 	const [newProjects, setNewProjects] = useState([]);
 
 	useEffect(() => {
@@ -22,6 +23,7 @@ const Home = () => {
 	return (
 		<div>
 			<div>
+				<ImgUpload userObj={userObj}/>
 				<div style={{ marginTop: 30 }}>
 					{newProjects.map((newProject) => (
 						<Link to={`/project_items/${newProject.projectId}`}>

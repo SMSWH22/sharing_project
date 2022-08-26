@@ -23,6 +23,8 @@ const ProjectDetail = ({userObj}) => {
 	const [projectOwner, setProjectOwner] = useState(false);
 	const [detailEditing, setDetailEditing] = useState(false);
 
+	const [newUrl, setNewUrl] = useState(itemDetail.url);
+
 	const [newTitle, setNewTitle] = useState(itemDetail.title);
 
 	const [newMemberName, setNewMemberName] = useState(null);
@@ -40,7 +42,6 @@ const ProjectDetail = ({userObj}) => {
 
 	// 수정
 	const [newIntroduce, setNewIntroduce] = useState([...itemDetail.introduce]);
-
 
 	useEffect(async () => {
 		dbService
@@ -63,6 +64,7 @@ const ProjectDetail = ({userObj}) => {
 					introduce: newArray[0].introduce,
 				});
 
+				setNewUrl(newArray[0].url);
 				setNewTitle(newArray[0].title);
 				setNewMember([...newArray[0].member]);
 				setNewSummary(newArray[0].summary);
