@@ -11,7 +11,6 @@ const ProjectDetail = ({userObj}) => {
 	
 	const location = useLocation();
 	const nowProjectId = location.state.data;
-	console.log(nowProjectId);
 
 	// 프로젝트 정보
 	const [itemDetail, setItemDetail] = useState({
@@ -165,15 +164,9 @@ const ProjectDetail = ({userObj}) => {
 
 	// 멤버 삭제
 	const onDeleteMember = (event) => {
-		console.log(event.target);
-		console.log(event.currentTarget);
-			// console.log(event.target.id);
-
-			const newMemArray = newMember;
-			newMemArray.splice(event.target.id, 1);
-			setNewMember([...newMemArray]);
-
-		
+		const newMemArray = newMember;
+		newMemArray.splice(event.target.id, 1);
+		setNewMember([...newMemArray]);
 	}
 
 	// 해시태그 추가
@@ -214,11 +207,11 @@ const ProjectDetail = ({userObj}) => {
 		setNewThumbnailBool(false);
 		setNewTitle(itemDetail.title);
 		setNewMember([...itemDetail.member]);
-		setNewIntroduce(itemDetail.summary);
-		setNewTagList([...itemDetail.hashtag]);
+		setNewIntroduce(itemDetail.introduce);
+		setNewTagList([...itemDetail.tagList]);
 
 		// setIntroduceIndex("");
-		setNewContent([...itemDetail.introduce]);
+		setNewContent([...itemDetail.content]);
 		setNewContentHeader("");
 		setNewContentContext("");
 		
@@ -359,13 +352,17 @@ const ProjectDetail = ({userObj}) => {
 						{/* Introduce */}
 						<div className="list_update">
 							<span>한줄소개</span>
-							<input
+							<textarea
 								onChange={onChange}
 								value={newIntroduce}
 								required
 								placeholder="Edit Summary"
 								autoFocus
 								id="inputIntroduce"
+								style={{
+									fontSize: "16px",
+									fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"
+								}}
 							/>
 						</div>
 						
