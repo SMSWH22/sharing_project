@@ -1,29 +1,5 @@
 # 프로젝트 상세페이지
 
-## [ Firebase Project : lemona-detail ]
-### 1. Authentication
-- google 로그인 인증
-- 상세페이지 수정 및 삭제 여부 결정하기 위해 임시 설정
-
-### 2. Firestore Database
-- collection : "projects"
-- fields
-  - "createdAt" : number
-  - "creatorId" : string
-  - "projectId" : number
-    - 프로젝트 고유 번호
-  - "attachmentUrl" : string
-  - "title" : string
-  - "member" : array[string]
-  - "summary" : string
-    - 한 줄 요약
-  - "hashtag" : array[string]
-  - "introduce" : array[{ "introduceTitle" : string , "introduceText" : string }]
-    - { 소제목, 내용 }
-
-### 3. Storage
-- 프로젝트 썸네일 이미지 url 저장
-
 ## [ 오류 및 해야할 기능 ]
 
 - 상세페이지
