@@ -116,6 +116,8 @@ const ProjectDetail = ({userObj}) => {
 				break;
 			
 			case "inputIntroduce":
+				event.target.style.height = "1px";
+				event.target.style.height = (12+event.target.scrollHeight)+"px";
 				setNewIntroduce(value);
 				break;
 
@@ -128,6 +130,8 @@ const ProjectDetail = ({userObj}) => {
 				break;
 			
 			case "addContentContext":
+				event.target.style.height = "1px";
+				event.target.style.height = (12+event.target.scrollHeight)+"px";
 				setNewContentContext(value);
 				break;
 		}
@@ -282,7 +286,7 @@ const ProjectDetail = ({userObj}) => {
 
 							<div>
 								<label htmlFor="attach-file" className="factoryInput__label">
-									<span>Edit Img</span>
+									<span>Edit Thumbnail</span>
 									<FontAwesomeIcon icon={faPlus}/>
 								</label>
 
@@ -356,12 +360,11 @@ const ProjectDetail = ({userObj}) => {
 								onChange={onChange}
 								value={newIntroduce}
 								required
-								placeholder="Edit Summary"
+								placeholder="Edit Introduce"
 								autoFocus
 								id="inputIntroduce"
 								style={{
-									fontSize: "16px",
-									fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"
+									
 								}}
 							/>
 						</div>
@@ -389,7 +392,7 @@ const ProjectDetail = ({userObj}) => {
 							</span>
 							{newTagList.map((hashtag, index) => (
 								<div className="hashtag">
-									{hashtag} 
+									#{hashtag} 
 									<FontAwesomeIcon id={index} onClick={onDeleteTagList} icon={faXmark} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
 								</div>
 							))}
@@ -405,7 +408,7 @@ const ProjectDetail = ({userObj}) => {
 
 											<input
 												value={item.header}
-												placeholder="Edit Introduce Title"
+												placeholder="Edit Content Header"
 												autoFocus
 												id={index}
 												onChange={onChange}
@@ -413,9 +416,9 @@ const ProjectDetail = ({userObj}) => {
 											/>
 										</span>
 										
-										<input
+										<textarea
 											value={item.context}
-											placeholder="Edit Introduce Text"
+											placeholder="Edit Content Context"
 											autoFocus
 											id={index}
 											onChange={onChange}
@@ -430,7 +433,7 @@ const ProjectDetail = ({userObj}) => {
 								<span className="input_introduce">
 									<FontAwesomeIcon onClick={onAddContent} icon={faCirclePlus} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
 									<input
-										placeholder="Introduce Title"
+										placeholder="Add Content Header"
 										autoFocus
 										value={newContentHeader}
 										onChange={onChange}
@@ -438,8 +441,8 @@ const ProjectDetail = ({userObj}) => {
 									/>
 								</span>
 										
-								<input
-									placeholder="Introduce Text"
+								<textarea
+									placeholder="Add Content Context"
 									autoFocus
 									value={newContentContext}
 									onChange={onChange}

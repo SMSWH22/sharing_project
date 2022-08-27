@@ -25,7 +25,7 @@ const ProjectDetailShow = ({itemDetail}) => {
 			<div className="list">
 				<span>해시태그</span>
 				{itemDetail.tagList.map((hashtag) => (
-					<div className="hashtag">{hashtag}</div>
+					<div className="hashtag">#{hashtag}</div>
 				))}
 			</div>
 			
