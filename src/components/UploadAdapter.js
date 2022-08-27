@@ -1,4 +1,5 @@
 class UploadAdapter {
+
     //생성자 클래스 정의
     constructor(loader) {
         this.loader = loader;
@@ -7,6 +8,17 @@ class UploadAdapter {
     // Starts the upload process.
     upload() {
         return this.loader.file.then( file => new Promise(((resolve, reject) => {
+			console.log(file);
+
+			let attachmentUrl = "";
+        
+            const attachmentRef = storageService
+                .ref()
+                .child(`${file.name}/${uuidv4()}`);
+            const response = await attachmentRef.putString(file.name, "data_url");
+            attachmentUrl = await response.ref.getDownloadURL();
+            console.log(attachmentUrl);
+
             this._initRequest();
             this._initListeners( resolve, reject, file );
             this._sendRequest( file );
@@ -22,8 +34,12 @@ class UploadAdapter {
 
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:3000/getimage', true);
-        xhr.responseType = 'json';
+		console.log(xhr);
+		console.log(xhr.response);
+		console.log(xhr.responseText);
+        xhr.open('POST', 'http://localhost:3000/#/users', true);
+		xhr.setRequestHeader('Content-type', 'application/json');
+        // xhr.responseType = 'json';
     }
 
     _initListeners(resolve, reject, file) {
@@ -43,12 +59,14 @@ class UploadAdapter {
                 default: response.url //업로드된 파일 주소
             })
         })
+		console.log(xhr.response);
     }
 
     _sendRequest(file) {
         const data = new FormData()
         data.append('upload',file)
         this.xhr.send(data)
+		console.log(data);
     }
 }
 

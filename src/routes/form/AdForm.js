@@ -150,6 +150,7 @@ const AdForm = () => {
                             //console.log(editor.getData());
                             setData(editor.getData());
                         }}
+						
                     />
                 </div>
                 <br></br>

@@ -7,7 +7,7 @@ const Home = () => {
 
 	useEffect(() => {
 		dbService
-			.collection("projectforms")
+			.collection("adforms")
 			.orderBy("createdAt", "desc")
 			.onSnapshot((snapshot) => {
 				const newArray = snapshot.docs.map((document) => ({

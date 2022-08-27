@@ -11,6 +11,7 @@ import { dbService, storageService } from "../../firebase";
 import ProjectDetailShow from "../../components/ProjectDetailShow";
 
 
+
 const ProjectDetail = () => {
 	// const {id} = useParams();
 	
