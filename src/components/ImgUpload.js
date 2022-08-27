@@ -28,10 +28,10 @@ const ImgUpload = ({userObj}) => {
 			projectId: cnt,
 			attachmentUrl,
 			title: "Project Title",
-			summary: "",
+			summary: "lemona",
 			member: [userObj.displayName],
 			hashtag:["#development"],
-			introduce: [{introduceTitle: "", introduceText: ""}]
+			introduce: [{introduceTitle: "title1", introduceText: "content1"}, {introduceTitle: "title2", introduceText: "content2"}]
 		});
 		setAttachment("");
 		setCnt(cnt+1);
@@ -57,10 +57,7 @@ const ImgUpload = ({userObj}) => {
 	const onClearAttachment = () => setAttachment("");
 
 	return (
-		<form onSubmit={onSubmit} className="factoryForm">
-			<div className="factoryInput__container">
-				<input type="submit" value="image upload" className="factoryInput__arrow" />
-			</div>
+		<form onSubmit={onSubmit}>
 			
 			<label htmlFor="attach-file" className="factoryInput__label">
 				<span>Add photos</span>
@@ -71,6 +68,7 @@ const ImgUpload = ({userObj}) => {
 				id="attach-file"
 				type="file" 
 				accept="image/*" 
+				required
 				onChange={onFileChange}
 				style={{
 					opacity: 0
@@ -92,6 +90,10 @@ const ImgUpload = ({userObj}) => {
 					</div>
 				</div>
 			)}
+
+			<div className="factoryInput__container">
+				<input type="submit" value="image upload" className="factoryInput__arrow" />
+			</div>
 		</form>
 		
 		

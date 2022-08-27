@@ -177,12 +177,20 @@ a {
 	text-align: center;
 }
 
-.list_update .inputIntroduce{
+.introduce_list{
+	padding-bottom: 70px;
+}
+
+
+.list_update .input_introduce{
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	padding-left: 0;
 }
+
+
+
 
 .formBtn{
 	cursor: pointer;
