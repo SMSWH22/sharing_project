@@ -8,44 +8,43 @@ import { v4 as uuidv4 } from "uuid";
 
 const ProjectDetail = ({userObj}) => {
 	const {id} = useParams();
-	const nowProjectId = parseInt(id);
+	const nowProjectId = id;
 
 	// 프로젝트 정보
 	const [itemDetail, setItemDetail] = useState({
 		id: "",
-		url: "",
+		attachmentUrl: "",
 		title: "",
-		summary: "",
+		introduce: "",
 		member: [],
-		hashtag: [],
-		introduce: [],
+		tagList: [],
+		content: [],
 	});
 
 	const [projectOwner, setProjectOwner] = useState(false);
 	const [detailEditing, setDetailEditing] = useState(false);
-	const [nowIndex, setNowIndex] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	// 수정 프로젝트 정보
-	const [newUrlBool, setNewUrlBool] = useState(false);
-	const [newUrl, setNewUrl] = useState("");
+	const [newThumbnailBool, setNewThumbnailBool] = useState(false);
+	const [newThumbnail, setNewThumbnail] = useState("");
 
 	const [newTitle, setNewTitle] = useState(null);
 	const [newMemberName, setNewMemberName] = useState(null);		
 	const [newMember, setNewMember] = useState(null);		
-	const [newSummary, setNewSummary] = useState(null);
-	const [newHashtagName, setNewHashtagName] = useState(null);		
-	const [newHashtag, setNewHashtag] = useState(null);	
+	const [newIntroduce, setNewIntroduce] = useState(null);
+	const [newTagListName, setNewTagListName] = useState(null);		
+	const [newTagList, setNewTagList] = useState(null);	
 
-	// const [newIntroduceIndex, setIntroduceIndex] = useState("");
-	const [newIntroduceTitle, setNewIntroduceTitle] = useState(null);
-	const [newIntroduceText, setNewIntroduceText] = useState(null);
-	// const [newIntroduceObj, setNewIntroduceObj] = useState({introduceTitle: null, introduceText: null})
-	const [newIntroduce, setNewIntroduce] = useState({introduceTitle: null, introduceText: null});
+	const [newContent, setNewContent] = useState({header: null, context: null});
+	const [newContentHeader, setNewContentHeader] = useState(null);
+	const [newContentContext, setNewContentContext] = useState(null);
+	
 
 	// 해당 프로젝트 정보 가져오기
 	useEffect(async () => {
 		dbService
-			.collection("projects")
+			.collection("projectforms")
 			.where("projectId", "==", nowProjectId)
 			.get()
 			.then(function(querySnapshot) {
@@ -57,19 +56,19 @@ const ProjectDetail = ({userObj}) => {
 				// 현재 프로젝트 정보 저장
 				setItemDetail({
 					id: newArray[0].id,
-					url: newArray[0].attachmentUrl,
+					thumbnail: newArray[0].thumbnail,
 					title: newArray[0].title,
-					summary: newArray[0].summary,
-					member: newArray[0].member,
-					hashtag: newArray[0].hashtag,
 					introduce: newArray[0].introduce,
+					member: newArray[0].member,
+					tagList: newArray[0].tagList,
+					content: newArray[0].content,
 				});
 
 				setNewTitle(newArray[0].title);
 				setNewMember([...newArray[0].member]);
-				setNewSummary(newArray[0].summary);
-				setNewHashtag([...newArray[0].hashtag]);
-				setNewIntroduce([...newArray[0].introduce]);
+				setNewIntroduce(newArray[0].introduce);
+				setNewTagList([...newArray[0].tagList]);
+				setNewContent([...newArray[0].content]);
 				
 				if (newArray[0].creatorId == userObj.uid){
 					setProjectOwner(true);
@@ -88,9 +87,9 @@ const ProjectDetail = ({userObj}) => {
 		const ok = window.confirm("삭제하시겠습니까?");
 
 		if (ok){
-			await dbService.doc(`projects/${itemDetail.id}`).delete();
-			if (itemDetail.url !== ""){
-				await storageService.refFromURL(itemDetail.url).delete();
+			await dbService.doc(`projectforms/${itemDetail.id}`).delete();
+			if (itemDetail.thumbnail !== ""){
+				await storageService.refFromURL(itemDetail.thumbnail).delete();
 			}
 			window.location.replace("/");
 		}
@@ -114,20 +113,20 @@ const ProjectDetail = ({userObj}) => {
 				setNewMemberName(value);
 				break;
 			
-			case "inputSummary":
-				setNewSummary(value);
+			case "inputIntroduce":
+				setNewIntroduce(value);
 				break;
 
-			case "inputHashtag":
-				setNewHashtagName(value);
+			case "inputTagList":
+				setNewTagListName(value);
 				break;
 
-			case "addIntroduceTitle":
-				setNewIntroduceTitle(value);
+			case "addContentHeader":
+				setNewContentHeader(value);
 				break;
 			
-			case "addIntroduceText":
-				setNewIntroduceText(value);
+			case "addContentContext":
+				setNewContentContext(value);
 				break;
 		}
 	}
@@ -144,8 +143,8 @@ const ProjectDetail = ({userObj}) => {
 			const{
 				currentTarget : {result}
 			} = finishedEvent;
-			setNewUrlBool(true);
-			setNewUrl(result);
+			setNewThumbnailBool(true);
+			setNewThumbnail(result);
 		};
 		if (Boolean(theFile)){
 			reader.readAsDataURL(theFile);
@@ -162,60 +161,61 @@ const ProjectDetail = ({userObj}) => {
 	}
 
 	// 멤버 삭제
-	const deleteMember = (event) => {
-		console.log(newMember);
-		const newMemArray = newMember;
-		newMemArray.splice(event.target.id, 1);
-		setNewMember([...newMemArray]);
+	const onDeleteMember = (event) => {
+		
+			console.log(event.target.id);
+			const newMemArray = newMember;
+			newMemArray.splice(event.target.id, 1);
+			setNewMember([...newMemArray]);
+
+		
 	}
 
 	// 해시태그 추가
-	const onAddHashtagClick = () => {
-		if (newHashtagName !== ""){
-			setNewHashtag([...newHashtag, newHashtagName]);
-			setNewHashtagName("");
+	const onAddTagListClick = () => {
+		if (newTagListName !== ""){
+			setNewTagList([...newTagList, newTagListName]);
+			setNewTagListName("");
 		}
 	}
 
 	// 해시태그 삭제
-	const deleteHashtag = (event) => {
-		const newHashArray = newHashtag;
-		newHashArray.splice(event.target.id, 1);
-		setNewHashtag([...newHashArray]);
+	const onDeleteTagList = (event) => {
+		console.log(event.target.id);
+		const newTagArray = newTagList;
+		newTagArray.splice(event.target.id, 1);
+		setNewTagList([...newTagArray]);
 	}
 
 	// 소개 추가
-	const onAddIntroduce = () => {
-		const newIntroduceObj = {introduceTitle: newIntroduceTitle, introduceText: newIntroduceText};
-		setNewIntroduce([...newIntroduce, newIntroduceObj]);
-		setNewIntroduceTitle("");
-		setNewIntroduceText("");
+	const onAddContent = () => {
+		const newContentObj = {header: newContentHeader, context: newContentContext};
+		setNewContent([...newContent, newContentObj]);
+		setNewContentHeader("");
+		setNewContentContext("");
 	}
 
 	// 소개 삭제
-	const deleteIntroduce = async (event) => {
-		
+	const onDeleteContent = async (event) => {
 		console.log(event.target.id);
-		const newIntroduceArray = newIntroduce;
-		newIntroduceArray.splice(event.target.id, 1);
-		setNewIntroduce([...newIntroduceArray]);
+		const newContentArray = newContent;
+		newContentArray.splice(event.target.id, 1);
+		setNewContent([...newContentArray]);
 	}
-
-	console.log(newIntroduce);
 
 	// 수정 취소
 	const cancelEditing = () => {
-		setNewUrl("");
-		setNewUrlBool(false);
+		setNewThumbnail("");
+		setNewThumbnailBool(false);
 		setNewTitle(itemDetail.title);
 		setNewMember([...itemDetail.member]);
-		setNewSummary(itemDetail.summary);
-		setNewHashtag([...itemDetail.hashtag]);
+		setNewIntroduce(itemDetail.summary);
+		setNewTagList([...itemDetail.hashtag]);
 
 		// setIntroduceIndex("");
-		setNewIntroduce([...itemDetail.introduce]);
-		setNewIntroduceTitle("");
-		setNewIntroduceText("");
+		setNewContent([...itemDetail.introduce]);
+		setNewContentHeader("");
+		setNewContentContext("");
 		
 		setDetailEditing((prev) => !prev);
 	}
@@ -224,45 +224,45 @@ const ProjectDetail = ({userObj}) => {
 	const onSubmit = async (event) => {
 		event.preventDefault();
 
-		let newAttachmentUrl = "";
+		let newThumbnailUrl = "";
 		// 이미지 변경된 경우, storage 이전 이미지 삭제 후 새로운 이미지 저장
-		if (newUrl !== ""){
-			await storageService.refFromURL(itemDetail.url).delete();
+		if (newThumbnail !== ""){
+			await storageService.refFromURL(itemDetail.thumbnail).delete();
 
 			const attachmentRef = storageService
 				.ref()
-				.child(`${userObj.uid}/${uuidv4()}`);
+				.child(`${itemDetail.nowProjectId}/${uuidv4()}`);
 		
-			const response = await attachmentRef.putString(newUrl, "data_url");
-			newAttachmentUrl = await response.ref.getDownloadURL();
+			const response = await attachmentRef.putString(newThumbnail, "data_url");
+			newThumbnailUrl = await response.ref.getDownloadURL();
 		}
 		
+		
 		// db 업데이트
-		await dbService.doc(`projects/${itemDetail.id}`).update({
-			attachmentUrl: newAttachmentUrl,
+		await dbService.doc(`projectforms/${itemDetail.id}`).update({
+			thumbnail: newThumbnailUrl,
 			title: newTitle,
 			member: newMember,
-			summary: newSummary,
-			hashtag: newHashtag,
-			introduce: newIntroduce
+			introduce: newIntroduce,
+			tagList: newTagList,
+			content: newContent
 		});
 
 		// 프로젝트 정보 업데이트
 		setItemDetail({
 			id: itemDetail.id,
-			url: newAttachmentUrl,
+			thumbnail: newThumbnailUrl,
 			title: newTitle,
-			summary: newSummary,
+			introduce: newIntroduce,
 			member: newMember,
-			hashtag: newHashtag,
-			introduce: newIntroduce
+			tagList: newTagList,
+			content: newContent
 		});
 
 		setDetailEditing(false);
-		setNewUrl("");
-		setNewUrlBool(false);
+		setNewThumbnail("");
+		setNewThumbnailBool(false);
 
-		
 		// setIntroduceIndex("");
 	};
 
@@ -276,10 +276,10 @@ const ProjectDetail = ({userObj}) => {
 
 						{/* Img */}
 						<div style={{paddingBottom:"40px"}}>
-							{newUrlBool ? (
-								<img src={`${newUrl}`}/>
+							{newThumbnailBool ? (
+								<img src={`${newThumbnail}`}/>
 							) : (
-								<img src={itemDetail.url}/>
+								<img src={itemDetail.thumbnail}/>
 							)}
 
 							<div>
@@ -339,25 +339,32 @@ const ProjectDetail = ({userObj}) => {
 							{newMember.map((memberName, index) => (
 								<div className="member">
 									{memberName}
-									<FontAwesomeIcon id={index} onClick={deleteMember} icon={faXmark} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}}  />
+									<FontAwesomeIcon id={index} onClick={onDeleteMember} icon={faXmark} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}}  />
+									
+									{/* {loading ? (
+										""
+									) : (
+										
+									)} */}
+									
 								</div>
 							))}
 						</div>
 						
-						{/* Summary */}
+						{/* Introduce */}
 						<div className="list_update">
 							<span>한줄소개</span>
 							<input
 								onChange={onChange}
-								value={newSummary}
+								value={newIntroduce}
 								required
 								placeholder="Edit Summary"
 								autoFocus
-								id="inputSummary"
+								id="inputIntroduce"
 							/>
 						</div>
 						
-						{/* Hashtag */}
+						{/* tagList */}
 						<div className="list_update">
 							<span>
 								해시태그
@@ -365,37 +372,37 @@ const ProjectDetail = ({userObj}) => {
 									<input 
 										type="text" 
 										placeholder="Hashtag"
-										value={newHashtagName}
+										value={newTagListName}
 										maxLength="15" 
 										onChange={onChange}
-										id="inputHashtag"
+										id="inputTagList"
 									/>
 									<FontAwesomeIcon 
 										icon={faCirclePlus} 
 										size="1x" 
 										style={{paddingLeft:"10px", cursor:"pointer"}}
-										onClick={onAddHashtagClick}
+										onClick={onAddTagListClick}
 									/>
 								</div>
 							</span>
-							{newHashtag.map((hashtag, index) => (
+							{newTagList.map((hashtag, index) => (
 								<div className="hashtag">
 									{hashtag} 
-									<FontAwesomeIcon id={index} onClick={deleteHashtag} icon={faXmark} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
+									<FontAwesomeIcon id={index} onClick={onDeleteTagList} icon={faXmark} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
 								</div>
 							))}
 						</div>
 						
-						{/* Introduce */}
+						{/* Content */}
 						<div className="list_update">
-							{newIntroduce.map((item, index) => (
+							{newContent.map((item, index) => (
 									<div className="introduce_list">
 										<span className="input_introduce">
 											{console.log(index)}
-											<FontAwesomeIcon id={index} onClick={deleteIntroduce} icon={faCircleXmark} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
+											<FontAwesomeIcon id={index} onClick={onDeleteContent} icon={faCircleXmark} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
 
 											<input
-												value={item.introduceTitle}
+												value={item.header}
 												placeholder="Edit Introduce Title"
 												autoFocus
 												id={index}
@@ -405,7 +412,7 @@ const ProjectDetail = ({userObj}) => {
 										</span>
 										
 										<input
-											value={item.introduceText}
+											value={item.context}
 											placeholder="Edit Introduce Text"
 											autoFocus
 											id={index}
@@ -419,22 +426,22 @@ const ProjectDetail = ({userObj}) => {
 							{/* 소개 추가 */}
 							<div className="introduce_list">
 								<span className="input_introduce">
-									<FontAwesomeIcon onClick={onAddIntroduce} icon={faCirclePlus} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
+									<FontAwesomeIcon onClick={onAddContent} icon={faCirclePlus} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
 									<input
 										placeholder="Introduce Title"
 										autoFocus
-										value={newIntroduceTitle}
+										value={newContentHeader}
 										onChange={onChange}
-										id="addIntroduceTitle"
+										id="addContentHeader"
 									/>
 								</span>
 										
 								<input
 									placeholder="Introduce Text"
 									autoFocus
-									value={newIntroduceText}
+									value={newContentContext}
 									onChange={onChange}
-									id="addIntroduceText"
+									id="addContentContext"
 								/>
 							</div>
 						</div>
@@ -453,8 +460,7 @@ const ProjectDetail = ({userObj}) => {
 				<div className="detail_container">
 
 					<ProjectDetailShow itemDetail={itemDetail} />
-					{projectOwner && (
-						<div style={{ paddingBottom:"20px"}}>
+					<div style={{ paddingBottom:"20px"}}>
 							<span onClick={onDeleteClick}>
 								<FontAwesomeIcon icon={faTrash} size="2x" style={{ padding:"10px"}}/>
 							</span>
@@ -462,7 +468,9 @@ const ProjectDetail = ({userObj}) => {
 								<FontAwesomeIcon icon={faPencilAlt} size="2x" style={{ padding:"10px"}}/>
 							</span>
 						</div>
-					)}
+					{/* {projectOwner && (
+						
+					)} */}
 				
 				</div >
 			)}

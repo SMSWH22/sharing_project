@@ -2,7 +2,7 @@ const ProjectDetailShow = ({itemDetail}) => {
 	return (
 		<>
 			<div>
-				<img src={`${itemDetail.url}`}/>
+				<img src={`${itemDetail.thumbnail}`}/>
 			</div>
 					
 			<div className="list">
@@ -19,20 +19,20 @@ const ProjectDetailShow = ({itemDetail}) => {
 			
 			<div className="list">
 				<span>한줄소개</span>
-				<div>{`${itemDetail.summary}`}</div>
+				<div>{`${itemDetail.introduce}`}</div>
 			</div>
 			
 			<div className="list">
 				<span>해시태그</span>
-				{itemDetail.hashtag.map((hashtag) => (
+				{itemDetail.tagList.map((hashtag) => (
 					<div className="hashtag">{hashtag}</div>
 				))}
 			</div>
 			
-			{itemDetail.introduce.map((item) => (
+			{itemDetail.content.map((item) => (
 				<div className="list">
-					<span>{item.introduceTitle}</span>
-					<div>{item.introduceText}</div>
+					<span>{item.header}</span>
+					<div>{item.context}</div>
 				</div>
 			))}
 		</>
