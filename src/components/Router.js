@@ -18,6 +18,8 @@ const AppRouter = ({isLoggedIn, userObj, refreshUser }) => {
 				<Route path="/project_items"
 					element = {<ProjectDetail userObj={userObj}/>}
 				/>
+
+				
 				
 				<Route exact path="/profile"
 					element = {<Profile refreshUser={refreshUser} userObj={userObj}/>}

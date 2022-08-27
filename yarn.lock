@@ -1102,14 +1102,6 @@
   dependencies:
     "ckeditor5" "^35.0.1"
 
-"@ckeditor/ckeditor5-autosave@^35.0.1":
-  "integrity" "sha512-+mTyh8WXJuT4863OjmF0iPX7NqxYs5iWL5UlUE/5f5din20f0J1VY+39btQG+T+96CSMoWy0P8t4cnXw4SB+aQ=="
-  "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-autosave/-/ckeditor5-autosave-35.0.1.tgz"
-  "version" "35.0.1"
-  dependencies:
-    "ckeditor5" "^35.0.1"
-    "lodash-es" "^4.17.15"
-
 "@ckeditor/ckeditor5-basic-styles@^35.0.1":
   "integrity" "sha512-Srg5Kbb5Gux+xTu24Wp+R/NbFUTM36bU/hgxSzfERvQgeDAp7TMdf2O/BCLrm6aTVHowgnUOFsH5PgnuG+rxsQ=="
   "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-basic-styles/-/ckeditor5-basic-styles-35.0.1.tgz"
@@ -1231,23 +1223,9 @@
   dependencies:
     "ckeditor5" "^35.0.1"
 
-"@ckeditor/ckeditor5-font@^35.0.1":
-  "integrity" "sha512-xNQBM/5vW9mjE2nro5RYCLsIlVxPKFYb+751XGA9B5XOtw5gV3dhxT0QQrhE8IFBF4hacKJYPuhgfLRkSTF+ag=="
-  "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-font/-/ckeditor5-font-35.0.1.tgz"
-  "version" "35.0.1"
-  dependencies:
-    "ckeditor5" "^35.0.1"
-
 "@ckeditor/ckeditor5-heading@^35.0.1":
   "integrity" "sha512-Rfc/Pa1EBQZIDFrLlL5HXx1gO3x0ZBq8DfeRlZ4Z6mRlOIzxU6Wj74qWsG6wauVJ1/KVVsghUN4zJ3U26SDaPQ=="
   "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-heading/-/ckeditor5-heading-35.0.1.tgz"
-  "version" "35.0.1"
-  dependencies:
-    "ckeditor5" "^35.0.1"
-
-"@ckeditor/ckeditor5-highlight@^35.0.1":
-  "integrity" "sha512-92TTC5NgTwAcxUkOTLCuRasyE7J1bl5+W/nN9xaN4f1QqLNM3V/UusyNTPoH0LAEbxjWtAG8TrXDRAsB3axTaQ=="
-  "resolved" "https://registry.npmjs.org/@ckeditor/ckeditor5-highlight/-/ckeditor5-highlight-35.0.1.tgz"
   "version" "35.0.1"
   dependencies:
     "ckeditor5" "^35.0.1"

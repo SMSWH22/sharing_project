@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt,faXmark,faCirclePlus,faPlus,faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import ProjectDetailShow from "./ProjectDetailShow";
 import { v4 as uuidv4 } from "uuid";
-import ReactHtmlParser from "html-react-parser";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import ReactHtmlParser from "html-react-parser";
+
 
 const ProjectDetail = ({userObj}) => {
 	// const {id} = useParams();
@@ -125,16 +126,6 @@ const ProjectDetail = ({userObj}) => {
 			case "inputTagList":
 				setNewTagListName(value);
 				break;
-
-			// case "addContentHeader":
-			// 	setNewContentHeader(value);
-			// 	break;
-			
-			// case "addContentContext":
-			// 	event.target.style.height = "1px";
-			// 	event.target.style.height = (12+event.target.scrollHeight)+"px";
-			// 	setNewContentContext(value);
-			// 	break;
 		}
 	}
 
@@ -190,21 +181,6 @@ const ProjectDetail = ({userObj}) => {
 		setNewTagList([...newTagArray]);
 	}
 
-	// // 소개 추가
-	// const onAddContent = () => {
-	// 	const newContentObj = {header: newContentHeader, context: newContentContext};
-	// 	setNewContent([...newContent, newContentObj]);
-	// 	setNewContentHeader("");
-	// 	setNewContentContext("");
-	// }
-
-	// // 소개 삭제
-	// const onDeleteContent = async (event) => {
-	// 	console.log(event.target.id);
-	// 	const newContentArray = newContent;
-	// 	newContentArray.splice(event.target.id, 1);
-	// 	setNewContent([...newContentArray]);
-	// }
 
 	// 수정 취소
 	const cancelEditing = () => {
@@ -268,6 +244,7 @@ const ProjectDetail = ({userObj}) => {
 
 		// setIntroduceIndex("");
 	};
+		
 
 	return (
 		<div>
@@ -404,12 +381,12 @@ const ProjectDetail = ({userObj}) => {
 							<span>본문 내용</span>
 							<CKEditor
 								editor={ClassicEditor}
-								data={`${newContent}`}
+								data={newContent}
 								config={{
 									placeholder: '내용을 입력해 주세요.',
 								}}
 								onChange={(event, editor) => {
-									//console.log(editor.getData());
+									console.log(editor.getData());
 									setNewContent(editor.getData());
 								}}
 							/>
