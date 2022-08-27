@@ -1,9 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faTwitter,
-	faGoogle,
-	faGithub
-} from "@fortawesome/free-brands-svg-icons";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { authService, firebaseInstance } from "fbase";
 
 const Auth = ({userObj}) => {
@@ -16,7 +12,7 @@ const Auth = ({userObj}) => {
 		if (name === "google"){
 			provider = new firebaseInstance.auth.GoogleAuthProvider();
 		}
-		const data = await authService.signInWithPopup(provider);
+		// const data = await authService.signInWithPopup(provider);
 	}
 
 	return(
