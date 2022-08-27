@@ -162,8 +162,10 @@ const ProjectDetail = ({userObj}) => {
 
 	// 멤버 삭제
 	const onDeleteMember = (event) => {
-		
-			console.log(event.target.id);
+		console.log(event.target);
+		console.log(event.currentTarget);
+			// console.log(event.target.id);
+
 			const newMemArray = newMember;
 			newMemArray.splice(event.target.id, 1);
 			setNewMember([...newMemArray]);
