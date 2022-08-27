@@ -15,7 +15,7 @@ const AppRouter = ({isLoggedIn, userObj, refreshUser }) => {
 					element = {<Home userObj={userObj}/>}
 				/>
 				
-				<Route path="/project_items/:id"
+				<Route path="/project_items"
 					element = {<ProjectDetail userObj={userObj}/>}
 				/>
 				

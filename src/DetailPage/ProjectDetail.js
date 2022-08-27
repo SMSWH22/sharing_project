@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { dbService, storageService } from "fbase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt,faXmark,faCirclePlus,faPlus,faCircleXmark } from "@fortawesome/free-solid-svg-icons";
@@ -7,8 +7,11 @@ import ProjectDetailShow from "./ProjectDetailShow";
 import { v4 as uuidv4 } from "uuid";
 
 const ProjectDetail = ({userObj}) => {
-	const {id} = useParams();
-	const nowProjectId = id;
+	// const {id} = useParams();
+	
+	const location = useLocation();
+	const nowProjectId = location.state.data;
+	console.log(nowProjectId);
 
 	// 프로젝트 정보
 	const [itemDetail, setItemDetail] = useState({

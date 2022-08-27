@@ -26,7 +26,7 @@ const Home = ({userObj}) => {
 				<ImgUpload userObj={userObj}/>
 				<div style={{ marginTop: 30 }}>
 					{newProjects.map((newProject) => (
-						<Link to={`/project_items/${newProject.projectId}`}>
+						<Link to="/project_items" state={{data: newProject.projectId}}>
 							<div className="project_container">
 								<h1>{newProject.title}</h1>
 							</div>
