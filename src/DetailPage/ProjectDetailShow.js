@@ -1,3 +1,5 @@
+import ReactHtmlParser from "html-react-parser";
+
 const ProjectDetailShow = ({itemDetail}) => {
 	return (
 		<>
@@ -29,12 +31,11 @@ const ProjectDetailShow = ({itemDetail}) => {
 				))}
 			</div>
 			
-			{itemDetail.content.map((item) => (
-				<div className="list">
-					<span>{item.header}</span>
-					<div>{item.context}</div>
-				</div>
-			))}
+			<div className="list">
+				<span>본문</span>
+				<div>{ReactHtmlParser(itemDetail.content)}</div>
+			</div>
+			
 		</>
 	);
 };

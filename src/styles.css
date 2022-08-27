@@ -218,3 +218,8 @@ a {
 	margin-bottom: 5px;
 	height: 50px;
 }
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable) {
+	min-height: 400px;
+	margin-bottom: 20px;
+  }

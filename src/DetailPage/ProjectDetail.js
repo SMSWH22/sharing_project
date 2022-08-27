@@ -5,6 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt,faXmark,faCirclePlus,faPlus,faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import ProjectDetailShow from "./ProjectDetailShow";
 import { v4 as uuidv4 } from "uuid";
+import ReactHtmlParser from "html-react-parser";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const ProjectDetail = ({userObj}) => {
 	// const {id} = useParams();
@@ -20,7 +23,7 @@ const ProjectDetail = ({userObj}) => {
 		introduce: "",
 		member: [],
 		tagList: [],
-		content: [],
+		content: "",
 	});
 
 	const [projectOwner, setProjectOwner] = useState(false);
@@ -38,9 +41,7 @@ const ProjectDetail = ({userObj}) => {
 	const [newTagListName, setNewTagListName] = useState(null);		
 	const [newTagList, setNewTagList] = useState(null);	
 
-	const [newContent, setNewContent] = useState({header: null, context: null});
-	const [newContentHeader, setNewContentHeader] = useState(null);
-	const [newContentContext, setNewContentContext] = useState(null);
+	const [newContent, setNewContent] = useState(null);
 	
 
 	// 해당 프로젝트 정보 가져오기
@@ -70,7 +71,7 @@ const ProjectDetail = ({userObj}) => {
 				setNewMember([...newArray[0].member]);
 				setNewIntroduce(newArray[0].introduce);
 				setNewTagList([...newArray[0].tagList]);
-				setNewContent([...newArray[0].content]);
+				setNewContent(newArray[0].content);
 				
 				if (newArray[0].creatorId == userObj.uid){
 					setProjectOwner(true);
@@ -125,15 +126,15 @@ const ProjectDetail = ({userObj}) => {
 				setNewTagListName(value);
 				break;
 
-			case "addContentHeader":
-				setNewContentHeader(value);
-				break;
+			// case "addContentHeader":
+			// 	setNewContentHeader(value);
+			// 	break;
 			
-			case "addContentContext":
-				event.target.style.height = "1px";
-				event.target.style.height = (12+event.target.scrollHeight)+"px";
-				setNewContentContext(value);
-				break;
+			// case "addContentContext":
+			// 	event.target.style.height = "1px";
+			// 	event.target.style.height = (12+event.target.scrollHeight)+"px";
+			// 	setNewContentContext(value);
+			// 	break;
 		}
 	}
 
@@ -189,21 +190,21 @@ const ProjectDetail = ({userObj}) => {
 		setNewTagList([...newTagArray]);
 	}
 
-	// 소개 추가
-	const onAddContent = () => {
-		const newContentObj = {header: newContentHeader, context: newContentContext};
-		setNewContent([...newContent, newContentObj]);
-		setNewContentHeader("");
-		setNewContentContext("");
-	}
+	// // 소개 추가
+	// const onAddContent = () => {
+	// 	const newContentObj = {header: newContentHeader, context: newContentContext};
+	// 	setNewContent([...newContent, newContentObj]);
+	// 	setNewContentHeader("");
+	// 	setNewContentContext("");
+	// }
 
-	// 소개 삭제
-	const onDeleteContent = async (event) => {
-		console.log(event.target.id);
-		const newContentArray = newContent;
-		newContentArray.splice(event.target.id, 1);
-		setNewContent([...newContentArray]);
-	}
+	// // 소개 삭제
+	// const onDeleteContent = async (event) => {
+	// 	console.log(event.target.id);
+	// 	const newContentArray = newContent;
+	// 	newContentArray.splice(event.target.id, 1);
+	// 	setNewContent([...newContentArray]);
+	// }
 
 	// 수정 취소
 	const cancelEditing = () => {
@@ -215,9 +216,9 @@ const ProjectDetail = ({userObj}) => {
 		setNewTagList([...itemDetail.tagList]);
 
 		// setIntroduceIndex("");
-		setNewContent([...itemDetail.content]);
-		setNewContentHeader("");
-		setNewContentContext("");
+		setNewContent(itemDetail.content);
+		// setNewContentHeader("");
+		// setNewContentContext("");
 		
 		setDetailEditing((prev) => !prev);
 	}
@@ -400,55 +401,18 @@ const ProjectDetail = ({userObj}) => {
 						
 						{/* Content */}
 						<div className="list_update">
-							{newContent.map((item, index) => (
-									<div className="introduce_list">
-										<span className="input_introduce">
-											{console.log(index)}
-											<FontAwesomeIcon id={index} onClick={onDeleteContent} icon={faCircleXmark} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
-
-											<input
-												value={item.header}
-												placeholder="Edit Content Header"
-												autoFocus
-												id={index}
-												onChange={onChange}
-												className="inputIntroduceTitle"
-											/>
-										</span>
-										
-										<textarea
-											value={item.context}
-											placeholder="Edit Content Context"
-											autoFocus
-											id={index}
-											onChange={onChange}
-											className="inputIntroduceText"
-										/>
-									</div>								
-								
-							))}
-
-							{/* 소개 추가 */}
-							<div className="introduce_list">
-								<span className="input_introduce">
-									<FontAwesomeIcon onClick={onAddContent} icon={faCirclePlus} size="1x" style={{paddingLeft:"10px", cursor:"pointer"}} />
-									<input
-										placeholder="Add Content Header"
-										autoFocus
-										value={newContentHeader}
-										onChange={onChange}
-										id="addContentHeader"
-									/>
-								</span>
-										
-								<textarea
-									placeholder="Add Content Context"
-									autoFocus
-									value={newContentContext}
-									onChange={onChange}
-									id="addContentContext"
-								/>
-							</div>
+							<span>본문 내용</span>
+							<CKEditor
+								editor={ClassicEditor}
+								data={`${newContent}`}
+								config={{
+									placeholder: '내용을 입력해 주세요.',
+								}}
+								onChange={(event, editor) => {
+									//console.log(editor.getData());
+									setNewContent(editor.getData());
+								}}
+							/>
 						</div>
 
 						{/* update */}
