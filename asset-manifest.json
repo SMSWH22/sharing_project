@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/SMSWH22/sharing_project.git/static/css/main.1c08fe02.css",
+    "main.js": "/SMSWH22/sharing_project.git/static/js/main.30f9933c.js",
+    "index.html": "/SMSWH22/sharing_project.git/index.html",
+    "main.1c08fe02.css.map": "/SMSWH22/sharing_project.git/static/css/main.1c08fe02.css.map",
+    "main.30f9933c.js.map": "/SMSWH22/sharing_project.git/static/js/main.30f9933c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1c08fe02.css",
+    "static/js/main.30f9933c.js"
+  ]
+}
